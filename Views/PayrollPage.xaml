@@ -1,0 +1,101 @@
+<Page x:Class="PayrollSystem.Views.PayrollPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Расчёт зарплаты"
+      Background="{DynamicResource MaterialDesignPaper}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="Расчёт заработной платы" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <ComboBox x:Name="cmbMonth"
+                      materialDesign:HintAssist.Hint="Месяц"
+                      Width="150"
+                      Margin="0,0,10,0"/>
+            <ComboBox x:Name="cmbYear"
+                      materialDesign:HintAssist.Hint="Год"
+                      Width="100"
+                      Margin="0,0,10,0"/>
+            <Button Content="Рассчитать" 
+                    Click="BtnCalculate_Click"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Margin="0,0,10,0"/>
+            <Button Content="Показать" 
+                    Click="BtnShow_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBox x:Name="txtSearch"
+                     materialDesign:HintAssist.Hint="Поиск по фамилии..."
+                     Width="300"
+                     TextChanged="TxtSearch_TextChanged"/>
+            <Button Content="Сбросить" 
+                    Click="BtnResetSearch_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" 
+                  x:Name="dgPayroll"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  SelectionChanged="DgPayroll_SelectionChanged"
+                  CellEditEnding="DgPayroll_CellEditEnding"
+                  materialDesign:DataGridAssist.CellPadding="10 6 6 6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeName}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Часы" Binding="{Binding WorkedHours, StringFormat={}{0:N1}}" IsReadOnly="True" Width="70"/>
+                <DataGridTextColumn Header="Начислено" Binding="{Binding BaseSalary, StringFormat={}{0:N2}}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, StringFormat={}{0:N2}}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Штраф" Binding="{Binding Penalty, StringFormat={}{0:N2}}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Удержания" Binding="{Binding TotalDeductions, StringFormat={}{0:N2}}" IsReadOnly="True" Width="90"/>
+                <DataGridTextColumn Header="К выплате" Binding="{Binding NetSalary, StringFormat={}{0:N2}}" IsReadOnly="True" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <materialDesign:Card Grid.Row="4" Margin="0,15,0,0" Padding="15">
+            <StackPanel>
+                <TextBlock Text="Подробный расчёт" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                <TextBlock x:Name="txtCalculationDetails" 
+                           TextWrapping="Wrap" 
+                           FontFamily="Consolas"
+                           FontSize="12"
+                           Text="Выберите сотрудника для просмотра расчёта..."/>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</Page>

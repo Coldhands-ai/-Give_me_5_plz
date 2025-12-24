@@ -1,0 +1,71 @@
+<Page x:Class="PayrollSystem.Views.TimesheetPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Табель времени"
+      Background="{DynamicResource MaterialDesignPaper}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="Учёт рабочего времени" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <ComboBox x:Name="cmbEmployee"
+                      materialDesign:HintAssist.Hint="Сотрудник"
+                      Width="200"
+                      DisplayMemberPath="FullName"
+                      SelectedValuePath="EmployeeID"
+                      SelectionChanged="Filter_Changed"
+                      Margin="0,0,15,0"/>
+            <DatePicker x:Name="dpStartDate"
+                        materialDesign:HintAssist.Hint="С даты"
+                        Width="150"
+                        SelectedDateChanged="Filter_Changed"
+                        Margin="0,0,15,0"/>
+            <DatePicker x:Name="dpEndDate"
+                        materialDesign:HintAssist.Hint="По дату"
+                        Width="150"
+                        SelectedDateChanged="Filter_Changed"
+                        Margin="0,0,15,0"/>
+            <Button Content="Сбросить" 
+                    Click="BtnReset_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,15">
+            <Button Content="Добавить запись" 
+                    Click="BtnAdd_Click"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Margin="0,0,10,0"/>
+            <Button Content="Удалить" 
+                    Click="BtnDelete_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Foreground="Red"
+                    BorderBrush="Red"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" 
+                  x:Name="dgTimesheet"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  materialDesign:DataGridAssist.CellPadding="13 8 8 8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeName}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateWorked, StringFormat={}{0:dd.MM.yyyy}}" Width="120"/>
+                <DataGridTextColumn Header="Часы" Binding="{Binding Hours}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -1,0 +1,68 @@
+<Page x:Class="PayrollSystem.Views.EmployeesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Сотрудники"
+      Background="{DynamicResource MaterialDesignPaper}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="Управление сотрудниками" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBox x:Name="txtSearch"
+                     materialDesign:HintAssist.Hint="Поиск по ФИО..."
+                     Width="300"
+                     TextChanged="TxtSearch_TextChanged"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+            <Button Content="Сбросить" 
+                    Click="BtnResetSearch_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,15">
+            <Button Content="Добавить" 
+                    Click="BtnAdd_Click"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Margin="0,0,10,0"/>
+            <Button Content="Редактировать" 
+                    Click="BtnEdit_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Margin="0,0,10,0"/>
+            <Button Content="Удалить" 
+                    Click="BtnDelete_Click"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Foreground="Red"
+                    BorderBrush="Red"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" 
+                  x:Name="dgEmployees"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="*"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding PositionName}" Width="*"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" Width="*"/>
+                <DataGridTextColumn Header="Оклад" Binding="{Binding BaseSalary, StringFormat={}{0:N2}}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
